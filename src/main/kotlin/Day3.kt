@@ -43,11 +43,8 @@ fun main() {
         .joinToString("")
     val binaryEpsilon = flipBinaryString(binaryGamma)
 
-    println(binaryGamma)
-    println(binaryEpsilon)
-
-    val gamma = Integer.parseInt(binaryGamma, 2)
-    val epsilon = Integer.parseInt(binaryEpsilon, 2)
+    val gamma = binaryGamma.toInt(2)
+    val epsilon = binaryEpsilon.toInt(2)
 
     println(gamma)
     println(epsilon)
