@@ -13,7 +13,7 @@ fun flipBinaryString(input: String): String {
 }
 
 fun main() {
-    val input = File("./resources/day_3/input.txt")
+    val input = File("./src/main/resources/day_3/input.txt")
         .readLines()
         .filterNot { it.isEmpty() }
         .map { it.toCharArray() }

@@ -49,7 +49,7 @@ object Navigator {
 }
 
 fun main() {
-    val coordinates = File("./resources/day_2/input.txt")
+    val coordinates = File("./src/main/resources/day_2/input.txt")
         .readLines()
         .filterNot { it.isEmpty() }
         .fold(Coordinates(0, 0, 0)) { coordinates, input ->
