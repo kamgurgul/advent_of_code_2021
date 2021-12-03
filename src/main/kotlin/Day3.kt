@@ -25,8 +25,8 @@ fun Array<CharArray>.rotate(): Array<CharArray> {
     return rotated
 }
 
-fun loadDataAsMatrix(): Array<CharArray> {
-    return File("./src/main/resources/day_3/test_input.txt")
+fun loadDataAsArray(): Array<CharArray> {
+    return File("./src/main/resources/day_3/input.txt")
         .readLines()
         .filterNot { it.isEmpty() }
         .map { it.toCharArray() }
@@ -34,7 +34,7 @@ fun loadDataAsMatrix(): Array<CharArray> {
 }
 
 fun part1(): Int {
-    val input = loadDataAsMatrix()
+    val input = loadDataAsArray()
     val rotatedInput = input.rotate()
 
     val binaryGamma = rotatedInput
@@ -56,37 +56,51 @@ fun part1(): Int {
     return gamma * epsilon
 }
 
-fun findOxygenRow(input: Array<CharArray>, rotatedInput: Array<CharArray>): String {
-    val mutableInput = input.toMutableList()
-    val mutableRotatedInput = rotatedInput.toMutableList()
-    for ((i, row) in mutableRotatedInput.withIndex()) {
-        val ones = row.count { char -> char == '1' }
-        val zeros = row.size - ones
-        if (ones >= zeros) {
-            mutableInput.removeAll { it[i] == '0' }
-        } else {
-            mutableInput.removeAll { it[i] == '1' }
-        }
-
-        /*mutableRotatedInput.clear()
-        mutableInput.addAll(mutableInput.toTypedArray().rotate())*/
-
-        if (mutableInput.size == 1) {
-            break
-        }
+fun findOxygenRowRec(input: Array<CharArray>, rotatedInput: Array<CharArray>, iteration: Int = 0): String {
+    if (input.size == 1) {
+        return input.first().joinToString("")
     }
-    return mutableInput.first().joinToString("")
+    val mutableInput = input.toMutableList()
+    val row = rotatedInput[iteration]
+    val ones = row.count { char -> char == '1' }
+    val zeros = row.size - ones
+    if (ones >= zeros) {
+        mutableInput.removeAll { it[iteration] == '0' }
+    } else {
+        mutableInput.removeAll { it[iteration] == '1' }
+    }
+    val array = mutableInput.toTypedArray()
+    return findOxygenRowRec(array, array.rotate(), iteration + 1)
+}
+
+fun findCO2RowRec(input: Array<CharArray>, rotatedInput: Array<CharArray>, iteration: Int = 0): String {
+    if (input.size == 1) {
+        return input.first().joinToString("")
+    }
+    val mutableInput = input.toMutableList()
+    val row = rotatedInput[iteration]
+    val ones = row.count { char -> char == '1' }
+    val zeros = row.size - ones
+    if (zeros <= ones) {
+        mutableInput.removeAll { it[iteration] == '1' }
+    } else {
+        mutableInput.removeAll { it[iteration] == '0' }
+    }
+    val array = mutableInput.toTypedArray()
+    return findCO2RowRec(array, array.rotate(), iteration + 1)
 }
 
 fun part2(): Int {
-    val input = loadDataAsMatrix()
+    val input = loadDataAsArray()
     val rotatedInput = input.rotate()
 
-    val binaryOxygen = findOxygenRow(input, rotatedInput)
+    val binaryOxygen = findOxygenRowRec(input, rotatedInput)
+    val binaryCO2 = findCO2RowRec(input, rotatedInput)
 
-    println(binaryOxygen)
+    val oxygen = binaryOxygen.toInt(2)
+    val co2 = binaryCO2.toInt(2)
 
-    return 0
+    return oxygen * co2
 }
 
 fun main() {
