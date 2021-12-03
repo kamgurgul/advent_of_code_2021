@@ -34,7 +34,7 @@ enum class Direction {
     }
 }
 
-class Navigator {
+object Navigator {
 
     fun navigate(current: Coordinates, command: Command): Coordinates {
         return when (command.direction) {
@@ -49,13 +49,11 @@ class Navigator {
 }
 
 fun main() {
-    val navigator = Navigator()
-
     val coordinates = File("./resources/day_2/input.txt")
         .readLines()
         .filterNot { it.isEmpty() }
         .fold(Coordinates(0, 0, 0)) { coordinates, input ->
-            navigator.navigate(coordinates, Command.parseCommand(input))
+            Navigator.navigate(coordinates, Command.parseCommand(input))
         }
 
     println(coordinates.x * coordinates.y)
