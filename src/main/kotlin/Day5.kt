@@ -8,11 +8,18 @@ data class Coords(
 data class VentLine(
     val from: Coords,
     val to: Coords
-)
+) {
+
+    fun isVerticalOrHorizontalLine() =
+        from.x == to.x || from.y == to.y
+}
 
 class VentsMap(
-    val ventLines: List<VentLine>
-)
+    val ventLines: List<VentLine>,
+    val map: List<List<Int>>
+) {
+
+}
 
 fun main() {
     fun part1(): String {
@@ -20,7 +27,7 @@ fun main() {
             .readLines()
             .filterNot { it.isEmpty() }
 
-        return "dupa"
+        return ""
     }
     println(part1())
 }
