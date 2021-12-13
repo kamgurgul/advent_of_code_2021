@@ -50,7 +50,7 @@ fun main() {
             return internalPermutations(set.toList())
         }
 
-        fun randomConfig(words: List<String>, expectedNumbers: List<String>): Int {
+        fun calculateOutputNumber(words: List<String>, expectedNumbers: List<String>): Int {
             val inputCables = 0..6
             val inputChars = 'a'..'g'
             val inputCablesPermutations = allPermutations(inputCables.toSet())
@@ -81,7 +81,7 @@ fun main() {
             val (inputSegments, output) = it.split(" | "); inputSegments.split(" ") to output.split(" ")
         }
         return lists.sumOf { (input, output) ->
-            randomConfig(input, output)
+            calculateOutputNumber(input, output)
         }
     }
     println(part1())
